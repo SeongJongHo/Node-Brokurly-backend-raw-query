@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ProductCtrl = require('../controllers/productController');
+const login_required = require('../core/userCertification').login_required;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
