@@ -33,5 +33,26 @@ module.exports = {
                 message: "success"
             })
         })
+    },
+
+    getProduct: (req, res)=>{
+        db.Product.findOne({
+            where:{
+                id: req.params.id
+            },
+            include:[{
+                model: db.Image, attributes: ['url']
+            }]
+        }).then(result=>{
+            if(result){
+                return res.status(200).json({
+                    result: result,
+                    message: "success"
+                })
+            }
+            return res.status(404).json({
+                message: "Invalid Product id"
+            })
+        })
     }
 }

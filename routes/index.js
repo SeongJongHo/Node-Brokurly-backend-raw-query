@@ -9,5 +9,6 @@ router.get('/', function(req, res, next) {
 
 /* Product */
 router.get('/products', ProductCtrl.getProducts)
+router.get('/product/:id', ProductCtrl.getProduct)
 
 module.exports = router;
