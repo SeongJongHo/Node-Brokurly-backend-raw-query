@@ -1,12 +1,8 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
 const Sequelize = require('sequelize');
-const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
+const config = require(__dirname + '/../config/config.js')[env];
 
 let sequelize;
 if (config.use_env_variable) {
@@ -15,23 +11,41 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
+const db = {
+  Cart            : require('./carts'),
+  Category        : require('./categories'),
+  Image           : require('./images'),
+  Menu            : require('./menus'),
+  OrderItem       : require('./order_items'),
+  OrderItemStatus : require('./order_item_status'),
+  OrderStatus     : require('./order_status'),
+  Order           : require('./orders'),
+  Product         : require('./products'),
+  User            : require('./users'),
+  sequelize       : sequelize,
+  Sequelize       : Sequelize
+}
 
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+db.Menu.init(sequelize)
+db.Category.init(sequelize)   
+db.Product.init(sequelize) 
+db.Image.init(sequelize)        
+db.User.init(sequelize)     
+db.OrderStatus.init(sequelize)            
+db.Order.init(sequelize)   
+db.OrderItemStatus.init(sequelize)
+db.OrderItem.init(sequelize)      
+db.Cart.init(sequelize)
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+db.Cart.associate(db)           
+db.Category.associate(db)       
+db.Image.associate(db)          
+db.Menu.associate(db)           
+db.OrderItem.associate(db)    
+db.OrderItemStatus.associate(db)
+db.OrderStatus.associate(db)    
+db.Order.associate(db)          
+db.Product.associate(db)        
+db.User.associate(db)              
 
 module.exports = db;
