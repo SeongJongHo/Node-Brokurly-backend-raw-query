@@ -67,9 +67,8 @@ module.exports={
     },
     signIn: async(req, res)=>{
         if(!req.body)return res.status(400).json({message: 'BODY_NOT_EXIST'})
-        console.log(req.body.username)
+        
         const user = await db.User.findOne({where: {username: req.body.username}})
-        console.log(user)
         if (!user)return res.status(400).json({message: 'INVALID_USERNAME'})
         
         const hashPassword = await bcrypt.compare(req.body.password, user.password)

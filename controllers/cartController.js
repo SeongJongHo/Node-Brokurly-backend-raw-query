@@ -40,7 +40,6 @@ module.exports= {
         }
         else{
             cart.quantity += req.body.quantity;
-            console.log(cart.quantity)
             cart.save().then(result=>{
                 return res.status(200).json({
                     message: 'SUCCESS',
