@@ -38,7 +38,7 @@ module.exports = class Category extends Sequelize.Model {
   };
   static associate(db){
     this.belongsTo(db.Menu, {foreignKey : 'menu_id', onDelete: 'cascade', targetKey: 'id'} )
-    this.hasMany(db.Product, {foreignKey: "category_id", sourceKey: 'id'});
+    this.hasMany(db.Product, {foreignKey: "category_id", onDelete: 'cascade', sourceKey: 'id'});
 
   }
 };

@@ -34,7 +34,7 @@ module.exports = class Menu extends Sequelize.Model{
     })
   }
   static associate(db){
-    this.hasMany(db.Category, {foreignKey : 'menu_id', sourceKey: 'id' })
+    this.hasMany(db.Category, {foreignKey : 'menu_id', onDelete: 'cascade', sourceKey: 'id' })
   }
 }
 //역참조가  hasmany 참조가 belongsto

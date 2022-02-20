@@ -21,9 +21,10 @@ module.exports = class Order extends Sequelize.Model{
           key: 'id'
         }
       },
-      user_id: {
+      users_id: {
         type: Sequelize.BIGINT,
         allowNull: false,
+        
       },
       created_at: {
         type: Sequelize.DATE,
@@ -46,7 +47,9 @@ module.exports = class Order extends Sequelize.Model{
     })
   }
   static associate(db){
-    this.belongsTo(db.OrderStatus, {foreignKey: "order_status_id", onDelete: 'cascade', targetKey: 'id'});
-    this.belongsTo(db.User, {foreignKey: "user_id", onDelete: 'cascade', targetKey: 'id'});
+    this.belongsTo(db.OrderStatus, {foreignKey: "order_status_id", targetKey: 'id'});
+    this.belongsTo(db.User, {foreignKey: "users_id", onDelete: 'cascade', targetKey: 'id'});
+    this.hasMany(db.OrderItem, {foreignKey: "order_id", onDelete: 'cascade', sourceKey: 'id'});
+
   }
 }

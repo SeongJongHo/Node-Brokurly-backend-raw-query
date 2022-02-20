@@ -78,8 +78,8 @@ module.exports = class Product extends Sequelize.Model{
   static associate(db){
     
     this.belongsTo(db.Category, {foreignKey: "category_id", onDelete: 'cascade', targetKey: "id"});
-    this.hasMany(db.Cart, {foreignKey: "product_id", sourceKey: "id"});
-    this.hasMany(db.Image, {foreignKey: "product_id", sourceKey: "id"});
-    this.hasMany(db.OrderItem, {foreignKey: "product_id", sourceKey: "id"});
+    this.hasMany(db.Cart, {foreignKey: "product_id", onDelete: 'cascade', sourceKey: "id"});
+    this.hasMany(db.Image, {foreignKey: "product_id", onDelete: 'cascade', sourceKey: "id"});
+    this.hasMany(db.OrderItem, {foreignKey: "product_id", onDelete: 'cascade', sourceKey: "id"});
   }
 }

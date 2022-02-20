@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = require('../config/config.js').SECRET_KEY;
-const ALGORITHM = require('../config/config.js').ALGORITHM
+const ALGORITHM = require('../config/config.js').ALGORITHM;
 const db = require('../models')
 
 module.exports = {
@@ -13,11 +13,11 @@ module.exports = {
                     if(result){
                         req.user = result.id
                         next()
+                    }else{
+                        return res.status(401).json({
+                            message: 'INVALID_USER'
+                        })
                     }
-                }).catch(err=>{
-                    return res.status(401).json({
-                        message: 'INVALID_USER'
-                    })
                 })
         }
         else{

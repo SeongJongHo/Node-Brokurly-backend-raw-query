@@ -34,6 +34,6 @@ module.exports = class OrderItemStatus extends Sequelize.Model{
     })
   }
   static associate(db){
-    this.hasMany(db.OrderItem, {foreignKey: "order_item_status_id", sourceKey: 'id'});
+    this.hasMany(db.OrderItem, {foreignKey: "order_items_status_id", sourceKey: 'id'});
   }
 }

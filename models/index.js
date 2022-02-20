@@ -37,6 +37,7 @@ db.OrderItemStatus.init(sequelize)
 db.OrderItem.init(sequelize)      
 db.Cart.init(sequelize)
 
+db.User.associate(db)
 db.Cart.associate(db)           
 db.Category.associate(db)       
 db.Image.associate(db)          
@@ -46,6 +47,6 @@ db.OrderItemStatus.associate(db)
 db.OrderStatus.associate(db)    
 db.Order.associate(db)          
 db.Product.associate(db)        
-db.User.associate(db)              
+              
 
 module.exports = db;

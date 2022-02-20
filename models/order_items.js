@@ -21,7 +21,7 @@ module.exports = class OrderItem extends Sequelize.Model{
         type: Sequelize.BIGINT,
         allowNull: false,
       },
-      order_item_status_id: {
+      order_items_status_id: {
         type: Sequelize.BIGINT,
         allowNull: false,
       },
@@ -50,7 +50,7 @@ module.exports = class OrderItem extends Sequelize.Model{
     })
   }
   static associate(db){
-    this.belongsTo(db.OrderItemStatus, {foreignKey: "order_item_status_id", onDelete: 'cascade', targetKey: 'id'});
+    this.belongsTo(db.OrderItemStatus, {foreignKey: "order_items_status_id", targetKey: 'id'});
     this.belongsTo(db.Order, {foreignKey: "order_id", onDelete: 'cascade', targetKey: 'id'});
     this.belongsTo(db.Product, {foreignKey: "product_id", onDelete: 'cascade', targetKey: 'id'});
   }
