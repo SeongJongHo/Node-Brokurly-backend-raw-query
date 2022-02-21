@@ -1,11 +1,7 @@
 # Introduction
 
 - 기간 : 22.02.19 - 22.02.20
-
-
-## Demo 
-[![Brokurly](https://media.vlpt.us/images/sae0428/post/f506ea79-a200-416c-bb47-b1138e53d240/1%EC%B0%A8%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EB%B8%8C%EB%A1%9C%EC%BB%AC%EB%A6%AC%20%EB%B2%A8%EB%A1%9C%EA%B7%B8%20%EC%8D%B8%EB%84%A4%EC%9D%BC.JPG)](https://youtu.be/RL1-vnUOx50)
-
+- Python Django로 개발한 [Brokurly](https://github.com/SeongJongHo/27-1st-Brokurly-backend) 프로젝트를 Node.js, Express, Sequelize 로 구현
 
 ## ERD
 
