@@ -1,41 +1,50 @@
-Introduction
+# Introduction
 
-기간 : 22.02.19 - 22.02.20
+- 기간 : 22.02.19 - 22.02.20
 
-Demo
 
-Brokurly
+## Demo 
+[![Brokurly](https://media.vlpt.us/images/sae0428/post/f506ea79-a200-416c-bb47-b1138e53d240/1%EC%B0%A8%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EB%B8%8C%EB%A1%9C%EC%BB%AC%EB%A6%AC%20%EB%B2%A8%EB%A1%9C%EA%B7%B8%20%EC%8D%B8%EB%84%A4%EC%9D%BC.JPG)](https://youtu.be/RL1-vnUOx50)
 
-ERD
 
-스크린샷 2021-12-05 오후 6 16 02
+## ERD
 
-Technologies
+<img width="754" alt="스크린샷 2021-12-05 오후 6 16 02" src="https://user-images.githubusercontent.com/90754590/145568725-b50daf67-0506-4f15-9344-2381d83ee8b5.png">
 
-Python
-Django Web Framework
-MySQL
-Git, Github
-Features
+## Technologies
 
-( POST )
+- Node.js
+- Express
+- Sequelize
+- MySQL
 
-회원가입
-아이디 중복체크
-이메일 중복체크
-로그인
-장바구니 담기
-상품주문
-( GET )
+## Features
 
-메인페이지
-상세페이지
-장바구니 내역
-주문내역
-( PATCH )
+### ( POST )
 
-장바구니 수량변경
-주문취소
-( DELETE )
+- 회원가입 
+- 아이디 중복체크
+- 이메일 중복체크
+- 로그인
+- 장바구니 담기
+- 상품주문
 
-장바구니 삭제
+### ( GET )
+
+- 메인페이지
+- 상세페이지
+- 장바구니 내역
+- 주문내역
+
+### ( PATCH )
+
+- 장바구니 수량변경
+- 주문취소
+
+### ( DELETE )
+
+- 장바구니 삭제
+
+# API 기능정의서
+
+[API 기능정의서](https://docs.google.com/spreadsheets/d/1Pef-aPfqPTho8lBUXTizRTFqKoATX4ISbZswPHgFos8/edit#gid=0)
