@@ -2,24 +2,21 @@ const db = require('../models');
 
 module.exports = {
     getProducts : (req, res)=>{
-        let Menu = ['채소','샐러드','과일','간편식']
-        let Category = ['쌈채소', '간편채소', '닭가슴살', '오늘의 샐러드', '야채 샐러드', '제철과일', '국산과일', '수입과일', '선식', '샌드위치', '시리얼' ]
-        
-        if(req.query.category) Category = req.query.category;
-        if(req.query.menu) Menu = req.query.menu;
+        const Menu = req.query.menu? req.query.menu : [1,...4]
+        const Category = req.query.category? req.query.category : [1,...11];
         
         db.Product.findAll({
             include:[{
                 model: db.Category,
                 attributes:['id','name'],
                 where:{
-                    name : Category
+                    id : Category
                 },
                 include: {
                     model: db.Menu,
                     attributes:['id','name'],
                     where:{
-                        name: Menu
+                        id: Menu
                     }
                 },
                 },{

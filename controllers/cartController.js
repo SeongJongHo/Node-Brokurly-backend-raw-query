@@ -1,7 +1,8 @@
 const db = require('../models');
 
 module.exports= {
-    getCart: (req, res)=>{
+    getCart: (req, res, next)=>{
+
         db.Cart.findAll({
             where: {user_id: req.user},
             include:{
@@ -13,7 +14,7 @@ module.exports= {
             }
         }).then(result=>{
             if(result){
-                res.status(200).json({
+                return res.status(200).json({
                     message: 'SUCCESS',
                     result : result
                 })
@@ -21,7 +22,7 @@ module.exports= {
         })
     },
     addCart: async(req, res)=>{
-        if(!req.body)return res.status(400).json({message: "BAD_REQUEST"})
+        if(!req.body.product_id)return res.status(400).json({message: "BAD_REQUEST"})
 
         const [cart, created] = await db.Cart.findOrCreate({
             where: {
