@@ -41,4 +41,3 @@ module.exports = class Image extends Sequelize.Model{
     this.belongsTo(db.Product, {foreignKey : 'product_id', onDelete: 'cascade', targetKey: 'id' })
   }
 }
-//역참조가  hasmany 참조가 belongsto
