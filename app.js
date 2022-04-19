@@ -4,15 +4,17 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const db = require('./models').sequelize
+const db2 = require('./models')
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
 
-//db 연결
+// db 연결
 // db.sync({force:false})
 //   .then(()=>{
+//     console.log("db 연결 성공")
 //     console.log("db 연결 성공")
 //   })
 //   .catch(()=>{
