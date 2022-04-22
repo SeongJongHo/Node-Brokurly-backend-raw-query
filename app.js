@@ -12,13 +12,13 @@ const usersRouter = require('./routes/users');
 const app = express();
 
 // db 연결
-db.sync({force:false})
-  .then(()=>{
-    console.log("db 연결 성공")
-  })
-  .catch(()=>{
-    console.log("db 연결 실패")
-  })
+// db.sync({force:false})
+//   .then(()=>{
+//     console.log("db 연결 성공")
+//   })
+//   .catch(()=>{
+//     console.log("db 연결 실패")
+//   })
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
