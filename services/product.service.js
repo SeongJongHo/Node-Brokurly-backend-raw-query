@@ -1,22 +1,19 @@
 const db = require('../models');
 
 module.exports = {
-    getProducts : (req, res)=>{
-        const Menu = req.query.menu? req.query.menu : [1,...4]
-        const Category = req.query.category? req.query.category : [1,...11];
-        
-        db.Product.findAll({
+    getProducts : async(menu, category)=>{
+        const products = await db.Product.findAll({
             include:[{
                 model: db.Category,
                 attributes:['id','name'],
                 where:{
-                    id : Category
+                    id : category
                 },
                 include: {
                     model: db.Menu,
                     attributes:['id','name'],
                     where:{
-                        id: Menu
+                        id: menu
                     }
                 },
                 },{
@@ -24,32 +21,25 @@ module.exports = {
                 attributes: ['url']
                 }
             ]
-        }).then(result=>{
-            return res.status(200).json({
-                result: result,
-                message: "success"
-            })
+        }).catch((err)=>{
+            throw {status: 400, message: err.message}
         })
+
+        return products
     },
 
-    getProduct: (req, res)=>{
-        db.Product.findOne({
+    getProduct: async(id)=>{
+        const product = await db.Product.findOne({
             where:{
-                id: req.params.id
+                id: id
             },
             include:[{
                 model: db.Image, attributes: ['url']
             }]
-        }).then(result=>{
-            if(result){
-                return res.status(200).json({
-                    result: result,
-                    message: "success"
-                })
-            }
-            return res.status(404).json({
-                message: "Invalid Product id"
-            })
+        }).catch((err)=>{
+            throw {status: 400, message: err.message}
         })
+
+        return product
     }
 }

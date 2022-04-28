@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const {SECRET_KEY, ALGORITHM} = require('../config/config.js')
 
 const signToken = async(user)=>{
-    const token = await jwt.sign({id:user}, SECRET_KEY, {algorithm:ALGORITHM});
+    const token = jwt.sign({id:user}, SECRET_KEY, {algorithm:ALGORITHM});
 
     return token
 }
