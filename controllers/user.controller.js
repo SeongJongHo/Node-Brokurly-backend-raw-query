@@ -56,7 +56,7 @@ module.exports={
 
             const result = await userService.signIn(req.body.username, req.body.password);
 
-            return res.status(200).json({message: 'success', result: result}) 
+            return res.status(200).json({message: 'success', token: result}) 
         }
         catch(err){
             return res.status(err.status || 400).json({message: err.message || 'error'})
