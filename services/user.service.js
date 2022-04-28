@@ -1,84 +1,58 @@
 const bcrypt = require('bcrypt');
 const db = require('../models');
 const validate = require('../utils/validator.util');
-const jwt = require('jsonwebtoken');
-const SECRET_KEY = require('../config/config.js').SECRET_KEY;
-const ALGORITHM = require('../config/config.js').ALGORITHM;
+const {signToken} = require('../utils/token.util')
+
 
 module.exports={
-    checkEmail: (req, res)=>{
-        if(!req.body)return res.status(400).json({message: 'BODY_NOT_EXIST'})
-
-        db.User.findOne({where: {email: req.body.email}})
-            .then(result=>{
-                if(result){
-                    return res.status(400).json({message: 'EMAIL_EXIST'})
-                }
-                else{
-                    return res.status(200).json({message: 'EMAIL_NOT_EXIST'})
-                }
-            })
+    checkEmail: async(email)=>{
+        const user = await db.User.findOne({where: {email: email}})
+        
+        if(user) throw {status:400, message: 'email exist'}
+        
+        return user??true
     },
     checkUsername: (req, res)=>{
-        if(!req.body)return res.status(400).json({message: 'BODY_NOT_EXIST'})
-
-        db.User.findOne({where: {username: req.body.username}})
-            .then(result=>{
-                if(result){
-                    return res.status(400).json({message: 'EMAIL_EXIST'})
-                }
-                else{
-                    return res.status(200).json({message: 'EMAIL_NOT_EXIST'})
-                }
-            })
+        const user = await db.User.findOne({where: {username: username}})
+        
+        if(user) throw {status:400, message: 'username exist'}
+        
+        return user??true
     },
-    signUp: async(req, res)=>{
-        try{
-            if(!req.body)return res.status(400).json({message: 'BODY_NOT_EXIST'})
-
-            validate.validates_email(req.body.email)
-            validate.validates_password(req.body.password)
-            validate.validates_username(req.body.username)
+    signUp: async(
+        username,
+        email   ,
+        password,
+        address ,
+        name    ,
+        contact ,)=>{
+            validate.validates_email(email)
+            validate.validates_password(password)
+            validate.validates_username(username)
             
-            db.User.create({
-                username : req.body.username,
-                email    : req.body.email,
-                password : await bcrypt.hash(req.body.password, 12),
-                address  : req.body.address,
-                name     : req.body.name,
-                contact  : req.body.contact  
-            }).then(result=>{
-                if(result){
-                    return res.status(201).json({
-                        message: 'CREATED'
-                    })
-                }
+            const user = db.User.create({
+                username : username,
+                email    : email,
+                password : await bcrypt.hash(password, 12),
+                address  : address,
+                name     : name,
+                contact  : contact  
             }).catch(err=>{
-                return res.status(400).json({
-                    message: 'NOT_CREATED'
-                })
+                throw {status: 400, message: err.message}
             })
-        }
-        catch (err){
-            return res.status(400).json({
-                message: err.message
-            })
-        }
+
+            return user
     },
-    signIn: async(req, res)=>{
-        if(!req.body)return res.status(400).json({message: 'BODY_NOT_EXIST'})
+    signIn: async(username, password)=>{        
+        const user = await db.User.findOne({where: {username: username}})
+        if (!user) throw {status: 400, message: 'invalid username'}
         
-        const user = await db.User.findOne({where: {username: req.body.username}})
-        if (!user)return res.status(400).json({message: 'INVALID_USERNAME'})
-        
-        const hashPassword = await bcrypt.compare(req.body.password, user.password)
-        if (hashPassword == false)return res.status(400).json({message: 'INVALID_PASSWORD'})
+        const hashPassword = await bcrypt.compare(password, user.password)
+        if (hashPassword == false) throw {status: 400, message: 'invalid password'}
         else{
-            const token = jwt.sign({id:user.id}, SECRET_KEY, {algorithm:ALGORITHM});
-            return res.status(200).json({
-                message: 'SUCCESS',
-                token: token
-            })
+            const token = await signToken(user.id)
+            
+            return token
         }
     }
 }
