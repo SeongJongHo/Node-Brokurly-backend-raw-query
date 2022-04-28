@@ -12,62 +12,65 @@ const orderStatus= {
     ORDER_CANCELLATION : 9
 }
 
-module.exports = {
-    getOrder: (user)=>{
-        const order = await db.Order.findAll({
-            where: {
-                users_id: req.user
-            },
-            include: {
-                model: db.OrderStatus,
-                model: db.OrderItem,
+const getOrder = (user)=>{
+    const order = await db.Order.findAll({
+        where: {
+            users_id: req.user
+        },
+        include: {
+            model: db.OrderStatus,
+            model: db.OrderItem,
+            include:{
+                model: db.OrderItemStatus,
+                model: db.Product,
                 include:{
-                    model: db.OrderItemStatus,
-                    model: db.Product,
-                    include:{
-                        model: db.Image,
-                        attributes: ['url']
-                    }
+                    model: db.Image,
+                    attributes: ['url']
                 }
             }
-        }).catch((err)=>{
-            throw {status: 400, message: err.message}
-        })
+        }
+    }).catch((err)=>{
+        throw {status: 400, message: err.message}
+    })
 
-        return order
-    },
-    addOrder: async(user, cart_id, t)=>{
-        const cart= await db.Cart.findAll({where: {id: cart_id}}, { transaction: t })
-        if(cart.length < 1) throw {status:400, message: 'invalid cart'}
+    return order
+}
+const addOrder = async(user, cart_id, t)=>{
+    const cart= await db.Cart.findAll({where: {id: cart_id}}, { transaction: t })
+    if(cart.length < 1) throw {status:400, message: 'invalid cart'}
 
-        await db.Cart.destroy({where:{id: cart_id}}, { transaction: t })
-            
-        const order = await db.Order.create({
-            order_number: uuid(),            
-            order_status_id: orderStatus.WAIT_DEPOSIT,           
-            users_id: user
-        }, { transaction: t })
-            .catch((err)=>{ throw {status:400, message: err.message}})
-
-        const orderItem = await cart.map(Item=>({
-                product_id: Item.product_id,
-                quantity: Item.quantity,
-                order_id: order.id,
-                order_items_status_id: orderStatus.WAIT_DEPOSIT,
-                tracking_number: uuid()
-        }))
-        await db.OrderItem.bulkCreate(orderItem, { transaction: t })
-            .catch(()=>{ throw {status:400, message: err.message}})
+    await db.Cart.destroy({where:{id: cart_id}}, { transaction: t })
         
-        await t.commit()
+    const order = await db.Order.create({
+        order_number: uuid(),            
+        order_status_id: orderStatus.WAIT_DEPOSIT,           
+        users_id: user
+    }, { transaction: t })
+        .catch((err)=>{ throw {status:400, message: err.message}})
 
-        return true
-    },
-    updateOrder: async(order_id)=>{        
-        const order = db.Order.update({order_status_id: orderStatus.ORDER_CANCELLATION},{where: {id: order_id}})
-            .catch(()=>{ throw {status:400, message: err.message}})
+    const orderItem = await cart.map(Item=>({
+            product_id: Item.product_id,
+            quantity: Item.quantity,
+            order_id: order.id,
+            order_items_status_id: orderStatus.WAIT_DEPOSIT,
+            tracking_number: uuid()
+    }))
+    await db.OrderItem.bulkCreate(orderItem, { transaction: t })
+        .catch(()=>{ throw {status:400, message: err.message}})
+    
+    await t.commit()
 
-        if(result[0]>0) return true
-        else throw {status:400, message: 'not updated'}
-    }
+    return true
+}
+const updateOrder = async(order_id)=>{        
+    const order = db.Order.update({order_status_id: orderStatus.ORDER_CANCELLATION},{where: {id: order_id}})
+        .catch(()=>{ throw {status:400, message: err.message}})
+
+    if(result[0]>0) return true
+    else throw {status:400, message: 'not updated'}
+}
+module.exports = {
+    getOrder,
+    addOrder,
+    updateOrder,
 }
