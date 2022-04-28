@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-
 const {SECRET_KEY, ALGORITHM} = require('../config/config.js')
 
 const signToken = async(user)=>{
@@ -7,7 +6,6 @@ const signToken = async(user)=>{
 
     return token
 }
-
 const verifyToken = (authorization)=>{
     let userId
     jwt.verify(authorization, SECRET_KEY, ALGORITHM,
@@ -21,6 +19,11 @@ const verifyToken = (authorization)=>{
             }                     
         }
     )
+}
+
+module.exports = {
+    signToken,
+    verifyToken,
 }
 
 
