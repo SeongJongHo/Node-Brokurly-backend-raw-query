@@ -13,8 +13,8 @@ const orderStatus= {
 }
 
 module.exports = {
-    getOrder: (req, res)=>{
-        db.Order.findAll({
+    getOrder: (user)=>{
+        const order = await db.Order.findAll({
             where: {
                 users_id: req.user
             },
@@ -30,76 +30,44 @@ module.exports = {
                     }
                 }
             }
-        }).then(result =>{
-            if(result.length == 0) throw new Error("ORDER_NOT_EXIST")
-
-            return res.status(200).json({
-                result: result,
-                message: 'SUCCESS'
-            });
-        }).catch(error=>{
-            return res.status(400).json({
-                message: error.message,
-            });
+        }).catch((err)=>{
+            throw {status: 400, message: err.message}
         })
+
+        return order
     },
-    addOrder: async(req, res)=>{
-        const t = await db.sequelize.transaction();
+    addOrder: async(user, cart_id, t)=>{
+        const cart= await db.Cart.findAll({where: {id: cart_id}}, { transaction: t })
+        if(cart.length < 1) throw {status:400, message: 'invalid cart'}
 
-        try {
-            if(!req.body)return res.status(400).json({message: 'BODY_NOT_EXIST'})
+        await db.Cart.destroy({where:{id: cart_id}}, { transaction: t })
             
-            const cart= await db.Cart.findAll({where: {id: req.body.cart_id}}, { transaction: t })
-            if(cart.length < 1) throw new Error('INVALID_CART');
+        const order = await db.Order.create({
+            order_number: uuid(),            
+            order_status_id: orderStatus.WAIT_DEPOSIT,           
+            users_id: user
+        }, { transaction: t })
+            .catch((err)=>{ throw {status:400, message: err.message}})
 
-            await db.Cart.destroy({where:{id:req.body.cart_id}}, { transaction: t })
-                .catch(()=>{ throw new Error('NOT_DELETED_CART')})
-                
-            const order = await db.Order.create({
-                order_number: uuid(),            
-                order_status_id: orderStatus.WAIT_DEPOSIT,           
-                users_id: req.user
-            }, { transaction: t })
-                .catch(()=>{ throw new Error('NOT_CREATED_ORDER')})
-
-            const orderItem = await cart.map(Item=>({
-                    product_id: Item.product_id,
-                    quantity: Item.quantity,
-                    order_id: order.id,
-                    order_items_status_id: orderStatus.WAIT_DEPOSIT,
-                    tracking_number: uuid()
-            }))
-            await db.OrderItem.bulkCreate(orderItem, { transaction: t })
-                .catch(()=>{ throw new Error('NOT_CRETED_ORDERITEM')})
-            
-            await t.commit()
-
-            return res.status(201).json({
-                message: 'SUCCESS'
-            })
-        }catch(err){
-
-            await t.rollback()
-            return res.status(400).json({
-                message: err.message
-            })
-        }
-    },
-    updateOrder: (req, res)=>{
-        if(!req.body)return res.status(400).json({message: 'BODY_NOT_EXIST'})
+        const orderItem = await cart.map(Item=>({
+                product_id: Item.product_id,
+                quantity: Item.quantity,
+                order_id: order.id,
+                order_items_status_id: orderStatus.WAIT_DEPOSIT,
+                tracking_number: uuid()
+        }))
+        await db.OrderItem.bulkCreate(orderItem, { transaction: t })
+            .catch(()=>{ throw {status:400, message: err.message}})
         
-        db.Order.update({order_status_id: orderStatus.ORDER_CANCELLATION},{where: {id: req.body.order_id}})
-            .then(result=>{
-                if(result[0]>0){
-                    return res.status(200).json({
-                        message: 'SUCCESS'
-                    })
-                }
-                throw new Error("NOT_UPDATED")
-            }).catch(err=>{
-                return res.status(400).json({
-                    message: err.message
-                })
-            })
+        await t.commit()
+
+        return true
+    },
+    updateOrder: async(order_id)=>{        
+        const order = db.Order.update({order_status_id: orderStatus.ORDER_CANCELLATION},{where: {id: order_id}})
+            .catch(()=>{ throw {status:400, message: err.message}})
+
+        if(result[0]>0) return true
+        else throw {status:400, message: 'not updated'}
     }
 }
