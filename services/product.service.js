@@ -25,7 +25,7 @@ module.exports = {
                 }
             ]
         }).then(result=>{
-            res.status(200).json({
+            return res.status(200).json({
                 result: result,
                 message: "success"
             })

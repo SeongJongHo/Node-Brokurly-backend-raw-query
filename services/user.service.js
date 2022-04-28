@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const db = require('../models');
-const validate = require('../core/validator');
+const validate = require('../utils/validator.util');
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = require('../config/config.js').SECRET_KEY;
 const ALGORITHM = require('../config/config.js').ALGORITHM;
@@ -46,7 +46,7 @@ module.exports={
                 password : await bcrypt.hash(req.body.password, 12),
                 address  : req.body.address,
                 name     : req.body.name,
-                contact  : req.body.contact
+                contact  : req.body.contact  
             }).then(result=>{
                 if(result){
                     return res.status(201).json({

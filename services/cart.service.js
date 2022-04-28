@@ -20,6 +20,9 @@ module.exports= {
                 })
             }
         })
+        .catch((err)=>{
+
+        })
     },
     addCart: async(req, res)=>{
         if(!req.body.product_id)return res.status(400).json({message: "BAD_REQUEST"})

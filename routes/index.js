@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const ProductCtrl = require('../controllers/productController');
-const CartCtrl = require('../controllers/cartController');
-const OrderCtrl = require('../controllers/orderController');
-const login_required = require('../core/userCertification').login_required;
+const ProductCtrl = require('../controllers/product.controller');
+const CartCtrl = require('../controllers/cart.controller');
+const OrderCtrl = require('../controllers/order.controller');
+const {login_required}= require('../middleware/auth.middleware');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+//www.naver.con/products
 /* Product */
 router.get('/products', ProductCtrl.getProducts)
 router.get('/product/:id', ProductCtrl.getProduct)
