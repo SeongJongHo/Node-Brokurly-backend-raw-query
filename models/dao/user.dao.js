@@ -1,11 +1,11 @@
-const db = require('../models/sequelize');
+const db = require('../sequelize');
 
 const checkEmailUserDao = async(email)=>{
     return await db.sequelize.query(
         `
-        SELECT email
+        SELECT *
         FROM users
-        WHERE email = ${email}
+        WHERE email = "${email}"
         `
     )
 }
@@ -15,7 +15,7 @@ const getUserDao = async(username)=>{
         `
         SELECT username, password
         FROM users
-        WHERE username = ${username}
+        WHERE username = "${username}"
         `
     )
 }
@@ -29,7 +29,7 @@ const addUserDao = async(
         return await db.sequelize.query(
             `
             INSERT INTO users(username, email, password, address, name, contact)
-            VALUES (${username}, ${email}, ${password}, ${address}, ${name}, ${contact})
+            VALUES ("${username}", "${email}", "${password}", "${address}", "${name}", "${contact}")
             `
         )
 }

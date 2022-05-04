@@ -1,6 +1,7 @@
 const db = require('../models/sequelize');
 
 const getProducts = async(menu, category)=>{
+    console.log(1234)
     const products = await db.Product.findAll({
         include:[{
             model: db.Category,
@@ -21,6 +22,7 @@ const getProducts = async(menu, category)=>{
             }
         ]
     }).catch((err)=>{
+        console.log(123)
         throw {status: 400, message: err.message}
     })
 

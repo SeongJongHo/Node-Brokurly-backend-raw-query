@@ -1,10 +1,10 @@
 const {productService} = require('../services')
 
-const getProducts = (req, res)=>{
+const getProducts = async(req, res)=>{
     try{
-        const menu = req.query.menu? req.query.menu : [1,...4]
-        const category = req.query.category? req.query.category : [1,...11];            
-        const result = productService.getProduct(menu, category)
+        const menu = req.query.menu? req.query.menu : [1,2,3,4]
+        const category = req.query.category? req.query.category : [1,2,3,4,5,6,7,8,9,10,11]; 
+        const result = await productService.getProducts(menu, category)
 
         return res.status(200).json({message: 'success', result: result}) 
     }
