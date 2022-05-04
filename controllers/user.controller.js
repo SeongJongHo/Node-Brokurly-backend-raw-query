@@ -12,7 +12,7 @@ const checkEmail = async(req, res)=>{
         return res.status(err.status || 400).json({message: err.message || 'error'})
     }
 }
-const checkUsername = (req, res)=>{
+const checkUsername = async(req, res)=>{
     try{
         if(!req.body.username) throw {status: 400, message: 'username is necessary'}
 

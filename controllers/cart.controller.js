@@ -22,7 +22,7 @@ const addCart = async(req, res)=>{
         return res.status(err.status || 400).json({message: err.message || 'error'})
     }  
 }
-const updateCart = (req, res)=>{
+const updateCart = async(req, res)=>{
     if(!req.body)return res.status(400).json({message: "BAD_REQUEST"})
     try{
         const result = await cartService.updateCart(req.user, req.body.cart_id, req.body.quantity)
@@ -33,7 +33,7 @@ const updateCart = (req, res)=>{
         return res.status(err.status || 400).json({message: err.message || 'error'})
     }
 }
-const deleteCart = (req, res)=>{
+const deleteCart = async(req, res)=>{
     try{
         if(!req.body)return res.status(400).json({message: "BAD_REQUEST"})
 

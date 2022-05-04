@@ -1,4 +1,4 @@
-const db = require('../models');
+const db = require('../models/sequelize');
 
 const getProducts = async(menu, category)=>{
     const products = await db.Product.findAll({

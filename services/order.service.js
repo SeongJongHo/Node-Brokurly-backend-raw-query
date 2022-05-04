@@ -1,4 +1,4 @@
-const db = require('../models');
+const db = require('../models/sequelize');
 const uuid = require('uuid').v4;
 const orderStatus= {
     WAIT_DEPOSIT       : 1,   
@@ -12,7 +12,7 @@ const orderStatus= {
     ORDER_CANCELLATION : 9
 }
 
-const getOrder = (user)=>{
+const getOrder = async(user)=>{
     const order = await db.Order.findAll({
         where: {
             users_id: req.user

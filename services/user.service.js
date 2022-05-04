@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const db = require('../models');
+const db = require('../models/sequelize');
 const validate = require('../utils/validator.util');
 const {signToken} = require('../utils/token.util')
 
@@ -10,7 +10,7 @@ const checkEmail = async(email)=>{
     
     return user??true
 }
-const checkUsername = (req, res)=>{
+const checkUsername = async(req, res)=>{
     const user = await db.User.findOne({where: {username: username}})
     
     if(user) throw {status:400, message: 'username exist'}

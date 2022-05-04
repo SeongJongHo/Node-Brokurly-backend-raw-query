@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const UserCtrl = require('../controllers/userController');
+// const UserCtrl = require('../controllers/userController');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -8,9 +8,9 @@ router.get('/', function(req, res, next) {
 });
 
 /* User */
-router.post('/signup', UserCtrl.signUp)
-router.post('/signin', UserCtrl.signIn)
-router.post('/emailcheck', UserCtrl.checkEmail)
-router.post('/usernamecheck', UserCtrl.checkUsername)
+// router.post('/signup', UserCtrl.signUp)
+// router.post('/signin', UserCtrl.signIn)
+// router.post('/emailcheck', UserCtrl.checkEmail)
+// router.post('/usernamecheck', UserCtrl.checkUsername)
 
 module.exports = router;
