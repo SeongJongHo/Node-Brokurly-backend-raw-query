@@ -11,14 +11,14 @@ const verifyToken = (authorization)=>{
     jwt.verify(authorization, SECRET_KEY, ALGORITHM,
         (err, decoded)=>{
             if(!err) {
-                userId = decoded.id
-                return userId??false 
+                userId = decoded.id? decoded.id:false;
             }
             else {
                 throw {status: 401, message: 'invalid token'}
             }                     
         }
     )
+    return userId
 }
 
 module.exports = {

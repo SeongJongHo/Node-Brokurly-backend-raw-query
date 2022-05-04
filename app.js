@@ -11,7 +11,7 @@ const usersRouter = require('./routes/users');
 const app = express();
 
 // db 연결
-db.sync({force:false})
+db.sync({force:true})
   .then(()=>{
     console.log("db 연결 성공")
   })

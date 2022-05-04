@@ -1,7 +1,7 @@
 const db = require('../models/sequelize');
 
 const getCart = async(user)=>{
-
+    console.log(123)
     const cart = await db.Cart.findAll({
         where: {user_id: user},
         include:{
@@ -14,7 +14,6 @@ const getCart = async(user)=>{
     }).catch((err)=>{
         throw {status: 400, message: err.message}
     })
-
     return cart
 }
 const addCart = async(user, product_id, quantity)=>{
