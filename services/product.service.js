@@ -1,46 +1,14 @@
-const db = require('../models/sequelize');
+const {productDao} = require('../models/dao');
 
 const getProducts = async(menu, category)=>{
-    console.log(1234)
-    const products = await db.Product.findAll({
-        include:[{
-            model: db.Category,
-            attributes:['id','name'],
-            where:{
-                id : category
-            },
-            include: {
-                model: db.Menu,
-                attributes:['id','name'],
-                where:{
-                    id: menu
-                }
-            },
-            },{
-            model: db.Image,
-            attributes: ['url']
-            }
-        ]
-    }).catch((err)=>{
-        console.log(123)
-        throw {status: 400, message: err.message}
-    })
+    const products = await productDao.getProductsDao(menu, category)
 
     return products
 }
 const getProduct = async(id)=>{
-    const product = await db.Product.findOne({
-        where:{
-            id: id
-        },
-        include:[{
-            model: db.Image, attributes: ['url']
-        }]
-    }).catch((err)=>{
-        throw {status: 400, message: err.message}
-    })
+    const products = await productDao.getProductsDao(id)
 
-    return product
+    return products
 }
 module.exports = {
     getProducts,
