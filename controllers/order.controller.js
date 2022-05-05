@@ -1,3 +1,4 @@
+const db = require('../models/sequelize');
 const {orderService} = require('../services')
 
 const getOrder = async(req, res)=>{
@@ -13,9 +14,8 @@ const getOrder = async(req, res)=>{
 const addOrder = async(req, res)=>{
     const t = await db.sequelize.transaction();
     try{
-        if(!req.body.email) throw {status: 400, message: 'email is is necessary'}
 
-        const result = await orderService.addOrder(req.user, cart_id, t)
+        const result = await orderService.addOrder(1, req.body.cart_id, t)
         
         if(result){
             return res.status(200).json({message: 'success'}) 

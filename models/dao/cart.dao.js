@@ -14,29 +14,29 @@ const addCartDao = async(userId, productId, quantity)=>{
     return await db.sequelize.query(
         `
         INSERT INTO carts (quantity, user_id, product_id)
-        VALUES (${quantity}, ${productId}, ${userId})
+        VALUES (${quantity}, ${userId}, ${productId})
         ON DUPLICATE KEY
         UPDATE quantity = quantity + ${quantity}
         `)
     // ALTER TABLE carts ADD UNIQUE KEY(product_id, user_id) 두개 컬럼을 묶어서 유니크
 }
 
-const updateCartDao = async(cartId, quantity)=>{
+const updateCartDao = async(userId, cartId, quantity)=>{
     return await db.sequelize.query(
         `
-        UPDATE INTO carts
+        UPDATE carts
         SET quantity = ${quantity}
-        WHERE id = ${cartID}
+        WHERE id = ${cartId} AND
         `
     )
 }
 
-const deleteCartDao = async()=>{
+const deleteCartDao = async(userId, cartId)=>{
     return await db.sequelize.query(
         `
         DELETE 
         FROM carts
-        WHERE id IN = (${cartID})
+        WHERE id IN = (${cartId})
         `
     )
 }

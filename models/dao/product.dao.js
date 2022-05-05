@@ -25,7 +25,7 @@ const getProductDao = async(id)=>{
         ON (m.id = c.menu_id )
         LEFT OUTER JOIN images AS i
         ON p.id = i.product_id 
-        WHERE id = "${id}"
+        WHERE p.id = ${id}
         `
     )
 }
