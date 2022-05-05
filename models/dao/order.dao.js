@@ -56,7 +56,7 @@ const addOrderDao = async(user, cart_id, t)=>{
         const order = await db.sequelize.query(
             `
             INSERT INTO orders(order_number, order_status_id, users_id)
-            VALUES ("${uuid()}", ${orderStatus.WAIT_DEPOSIT}, ${user})
+            VALUES ('${uuid()}', ${orderStatus.WAIT_DEPOSIT}, ${user})
             `
             ,{ transaction: t }
         ).catch((e)=> {
@@ -75,7 +75,7 @@ const addOrderDao = async(user, cart_id, t)=>{
         await Promise.all(orderItem)
         await t.commit();
         return true
-        
+
         /* 벌크 insert 하려했으나 오류 발생 해결방안 계속 모색 */
         // await db.sequelize.query(
         //     `

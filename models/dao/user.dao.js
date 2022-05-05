@@ -5,7 +5,7 @@ const checkEmailUserDao = async(email)=>{
         `
         SELECT *
         FROM users
-        WHERE email = "${email}"
+        WHERE email = '${email}'
         `
     )
 }
@@ -15,7 +15,16 @@ const getUserDao = async(username)=>{
         `
         SELECT username, password
         FROM users
-        WHERE username = "${username}"
+        WHERE username = '${username}'
+        `
+    )
+}
+const getAuthUserDao = async(id)=>{
+    return await db.sequelize.query(
+        `
+        SELECT username, password
+        FROM users
+        WHERE id = ${id}
         `
     )
 }
@@ -29,7 +38,7 @@ const addUserDao = async(
         return await db.sequelize.query(
             `
             INSERT INTO users(username, email, password, address, name, contact)
-            VALUES ("${username}", "${email}", "${password}", "${address}", "${name}", "${contact}")
+            VALUES ('${username}', '${email}', '${password}', '${address}', '${name}', '${contact}')
             `
         )
 }
@@ -38,4 +47,5 @@ module.exports={
     addUserDao,
     getUserDao,
     checkEmailUserDao,
+    getAuthUserDao,
 }
