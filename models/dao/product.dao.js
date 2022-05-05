@@ -12,7 +12,9 @@ const getProductsDao = async(menu, category)=>{
         LEFT OUTER JOIN images AS i
         ON p.id = i.product_id 
         `
-    )
+    ).catch((e)=> {
+        throw {status:500, message:e.message}
+    })
 }
 const getProductDao = async(id)=>{
     return await db.sequelize.query(
@@ -27,7 +29,9 @@ const getProductDao = async(id)=>{
         ON p.id = i.product_id 
         WHERE p.id = ${id}
         `
-    )
+    ).catch((e)=> {
+        throw {status:500, message:e.message}
+    })
 }
 module.exports = {
     getProductsDao,

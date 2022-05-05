@@ -29,7 +29,9 @@ const getOrderDao = async(user)=>{
         ON (i.product_id = p.id)
         WHERE o.users_id = ${user}
         `
-    )
+    ).catch((e)=> {
+        throw {status:500, message:e.message}
+    })
 }
 const addOrderDao = async(user, cart_id, t)=>{
 
@@ -70,7 +72,9 @@ const addOrderDao = async(user, cart_id, t)=>{
                 VALUES (${item.product_id}, ${item.quantity}, ${order[0]}, ${orderStatus.WAIT_DEPOSIT}, '${uuid()}')
                 `
                 ,{ transaction: t }
-            )
+            ).catch((e)=> {
+                throw {status:500, message:e.message}
+            })
         })
         await Promise.all(orderItem)
         await t.commit();
@@ -98,7 +102,9 @@ const updateOrderDao = async(orderItems, status)=>{
         SET order_status_id = ${status}
         WHERE id IN ${orderItems} 
         `
-    )
+    ).catch((e)=> {
+        throw {status:500, message:e.message}
+    })
 }
 module.exports = {
     getOrderDao,

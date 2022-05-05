@@ -7,7 +7,9 @@ const getCartDao = async(userId)=>{
          FROM carts AS c
          INNER JOIN products AS p ON (p.id = product_id)
          INNER JOIN images AS i ON (i.product_id = p.id)
-         WHERE user_id = ${userId}`)
+         WHERE user_id = ${userId}`).catch((e)=> {
+            throw {status:500, message:e.message}
+        })
 }
 
 const addCartDao = async(userId, productId, quantity)=>{
@@ -17,7 +19,9 @@ const addCartDao = async(userId, productId, quantity)=>{
         VALUES (${quantity}, ${userId}, ${productId})
         ON DUPLICATE KEY
         UPDATE quantity = quantity + ${quantity}
-        `)
+        `).catch((e)=> {
+            throw {status:500, message:e.message}
+        })
     // ALTER TABLE carts ADD UNIQUE KEY(product_id, user_id) 두개 컬럼을 묶어서 유니크
 }
 
@@ -28,7 +32,9 @@ const updateCartDao = async(userId, cartId, quantity)=>{
         SET quantity = ${quantity}
         WHERE id = ${cartId} AND
         `
-    )
+    ).catch((e)=> {
+        throw {status:500, message:e.message}
+    })
 }
 
 const deleteCartDao = async(userId, cartId)=>{
@@ -38,7 +44,9 @@ const deleteCartDao = async(userId, cartId)=>{
         FROM carts
         WHERE id IN = (${cartId})
         `
-    )
+    ).catch((e)=> {
+        throw {status:500, message:e.message}
+    })
 }
 
 module.exports={

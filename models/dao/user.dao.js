@@ -7,7 +7,9 @@ const checkEmailUserDao = async(email)=>{
         FROM users
         WHERE email = '${email}'
         `
-    )
+    ).catch((e)=> {
+        throw {status:500, message:e.message}
+    })
 }
 
 const getUserDao = async(username)=>{
@@ -17,7 +19,9 @@ const getUserDao = async(username)=>{
         FROM users
         WHERE username = '${username}'
         `
-    )
+    ).catch((e)=> {
+        throw {status:500, message:e.message}
+    })
 }
 const getAuthUserDao = async(id)=>{
     return await db.sequelize.query(
@@ -26,7 +30,9 @@ const getAuthUserDao = async(id)=>{
         FROM users
         WHERE id = ${id}
         `
-    )
+    ).catch((e)=> {
+        throw {status:500, message:e.message}
+    })
 }
 const addUserDao = async(
     username,
@@ -40,7 +46,9 @@ const addUserDao = async(
             INSERT INTO users(username, email, password, address, name, contact)
             VALUES ('${username}', '${email}', '${password}', '${address}', '${name}', '${contact}')
             `
-        )
+        ).catch((e)=> {
+            throw {status:500, message:e.message}
+        })
 }
 
 module.exports={
