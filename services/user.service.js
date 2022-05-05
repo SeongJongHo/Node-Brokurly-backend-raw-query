@@ -1,17 +1,17 @@
 const bcrypt = require('bcrypt');
-const db = require('../models/sequelize');
+const {userDao} = require('../models/dao');
 const validate = require('../utils/validator.util');
 const {signToken} = require('../utils/token.util')
 
 const checkEmail = async(email)=>{
-    const user = await db.User.findOne({where: {email: email}})
+    const user = await userDao.checkEmailUserDao(email)
     
     if(user) throw {status:400, message: 'email exist'}
     
     return user??true
 }
-const checkUsername = async(req, res)=>{
-    const user = await db.User.findOne({where: {username: username}})
+const checkUsername = async(username)=>{
+    const user = await userDao.getUserDao(username)
     
     if(user) throw {status:400, message: 'username exist'}
     
@@ -28,21 +28,19 @@ const signUp = async(
         validate.validates_password(password)
         validate.validates_username(username)
         
-        const user = db.User.create({
-            username : username,
-            email    : email,
-            password : await bcrypt.hash(password, 12),
-            address  : address,
-            name     : name,
-            contact  : contact  
-        }).catch(err=>{
-            throw {status: 400, message: err.message}
-        })
+        const user = await userDao.addUserDao(
+            username,
+            email   ,
+            password,
+            address ,
+            name    ,
+            contact ,    
+        )
 
         return user
 }
 const signIn = async(username, password)=>{        
-    const user = await db.User.findOne({where: {username: username}})
+    const user = await userDao.getUserDao(username)
     if (!user) throw {status: 400, message: 'invalid username'}
     
     const hashPassword = await bcrypt.compare(password, user.password)
