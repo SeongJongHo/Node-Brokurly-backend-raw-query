@@ -51,7 +51,7 @@ const signUp = async(req, res)=>{
 }
 const signIn = async(req, res)=>{
     try{
-        if(!req.body.username || !req.body.password) throw {status: 400, message: 'email is is necessary'}
+        if(!req.body.username || !req.body.password) throw {status: 400, message: 'username or password necessary'}
 
         const result = await userService.signIn(req.body.username, req.body.password);
 
