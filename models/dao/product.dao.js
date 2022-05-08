@@ -3,7 +3,7 @@ const db = require('../sequelize');
 const getProductsDao = async(menu, category)=>{
     return await db.sequelize.query(
         `
-        SELECT * 
+        SELECT p.id, p.name, p.introduction, p.price, p.created_at, i.url
         FROM products AS p
         INNER JOIN categories AS c 
         ON (c.id IN (${category}) AND c.id = p.category_id )
@@ -19,7 +19,11 @@ const getProductsDao = async(menu, category)=>{
 const getProductDao = async(id)=>{
     return await db.sequelize.query(
         `
-        SELECT * 
+        SELECT 
+        p.id, p.name, p.price, 
+        p.introduction, p.description, p.unit, 
+        p.shipping, p.package, p.weight, i.url,
+        p.category_id, c.menu_id    
         FROM products AS p
         INNER JOIN categories AS c 
         ON (c.id = p.category_id )

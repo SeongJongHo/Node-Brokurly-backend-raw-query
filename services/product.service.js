@@ -6,9 +6,9 @@ const getProducts = async(menu, category)=>{
     return products
 }
 const getProduct = async(id)=>{
-    const products = await productDao.getProductsDao(id)
+    const product = await productDao.getProductDao(id)
 
-    return products
+    return product
 }
 module.exports = {
     getProducts,

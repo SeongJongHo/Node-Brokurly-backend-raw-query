@@ -6,7 +6,7 @@ const getProducts = async(req, res)=>{
         const category = req.query.category? req.query.category : [1,2,3,4,5,6,7,8,9,10,11]; 
         const result = await productService.getProducts(menu, category)
 
-        return res.status(200).json({message: 'success', result: result}) 
+        return res.status(200).json({message: 'success', result: result[0]}) 
     }
     catch(err){
         return res.status(err.status || 400).json({message: err.message || 'error'})
@@ -15,10 +15,10 @@ const getProducts = async(req, res)=>{
 const getProduct = async(req, res)=>{
     try{
         if(!req.params.id) throw {status: 400, message: 'id is is necessary'}
+        
+        const result = await productService.getProduct(req.params.id)
 
-        const result = await product.getProduct(req.params.id)
-
-        return res.status(200).json({message: 'success', result: result}) 
+        return res.status(200).json({message: 'success', result: result[0]}) 
     }
     catch(err){
         return res.status(err.status || 400).json({message: err.message || 'error'})
