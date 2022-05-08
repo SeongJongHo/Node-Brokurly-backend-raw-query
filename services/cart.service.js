@@ -12,9 +12,9 @@ const addCart = async(user, product_id, quantity)=>{
 
     return cart
 }
-const updateCart = async(user, cart_id)=>{
+const updateCart = async(user, cart_id, quantity)=>{
 
-    const cart = await cartDao.updateCartDao(user, cart_id)
+    const cart = await cartDao.updateCartDao(user, cart_id, quantity)
 
     return cart
 }

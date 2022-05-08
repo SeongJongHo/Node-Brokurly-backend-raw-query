@@ -15,7 +15,7 @@ const checkEmailUserDao = async(email)=>{
 const getUserDao = async(username)=>{
     return await db.sequelize.query(
         `
-        SELECT username, password
+        SELECT username, password, id
         FROM users
         WHERE username = '${username}'
         `

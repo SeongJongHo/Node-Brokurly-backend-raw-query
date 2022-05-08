@@ -48,6 +48,7 @@ const signIn = async(username, password)=>{
     const hashPassword = await bcrypt.compare(password, user[0][0].password)
     if (hashPassword == false) throw {status: 400, message: 'invalid password'}
     else{
+        console.log(user)
         const token = await signToken(user[0][0].id)
         
         return token

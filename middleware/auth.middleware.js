@@ -12,14 +12,14 @@ const login_required = async(req, res, next)=>{
                         next()
                     }
                     else {
-                        throw {status:401, message: 'invalid user1'}
+                        throw {status:401, message: 'invalid user'}
                     }
                 }).catch(()=>{
-                    throw {status:401, message: 'invalid user2'}
+                    throw {status:401, message: 'invalid user'}
                 })
         }
         else {
-            throw {status:401, message: 'invalid user'}
+            throw {status:401, message: 'invalid authorization'}
         }
     }
     catch (e){

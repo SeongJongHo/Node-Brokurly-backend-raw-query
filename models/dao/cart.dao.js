@@ -30,7 +30,7 @@ const updateCartDao = async(userId, cartId, quantity)=>{
         `
         UPDATE carts
         SET quantity = ${quantity}
-        WHERE id = ${cartId} AND
+        WHERE id = ${cartId} AND user_id = ${userId}
         `
     ).catch((e)=> {
         throw {status:500, message:e.message}
@@ -42,7 +42,7 @@ const deleteCartDao = async(userId, cartId)=>{
         `
         DELETE 
         FROM carts
-        WHERE id IN = (${cartId})
+        WHERE id IN (${cartId}) AND user_id = ${userId}
         `
     ).catch((e)=> {
         throw {status:500, message:e.message}

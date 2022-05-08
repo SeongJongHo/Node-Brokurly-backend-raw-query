@@ -13,7 +13,7 @@ const verifyToken = (authorization)=>{
             if(!err) {
                 userId = decoded.id? decoded.id:false;
             }
-            else {
+            else{
                 throw {status: 401, message: 'invalid token'}
             }                     
         }
