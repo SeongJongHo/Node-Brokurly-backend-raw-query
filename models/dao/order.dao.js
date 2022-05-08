@@ -13,47 +13,6 @@ const orderStatus= {
 }
 
 const getOrderDao = async(user)=>{
-    // GROUP_CONCAT
-    // return await db.sequelize.query(
-    //     `
-    //     SELECT *
-    //     FROM orders AS o
-    //     INNER JOIN order_status AS os
-    //     ON (os.id = o.order_status_id)
-    //     LEFT OUTER JOIN order_items AS oi
-    //     ON (oi.order_id = o.id)
-    //     INNER JOIN order_item_status AS ois
-    //     ON (ois.id = oi.order_items_status_id)
-    //     INNER JOIN products AS p
-    //     ON (p.id = oi.product_id)
-    //     LEFT OUTER JOIN images AS i
-    //     ON (i.product_id = p.id)
-    //     WHERE o.users_id = ${user}
-    //     `
-    // ).catch((e)=> {
-    //     throw {status:500, message:e.message}
-    // })
-    // return await db.sequelize.query(
-    //     `
-    //     SELECT o.id, o.order_number, os.status,
-    //     GROUP_CONCAT(p.id, p.name , p.price ,ois.status) AS productInfo
-    //     FROM orders AS o
-    //     INNER JOIN order_status AS os
-    //     ON (os.id = o.order_status_id)
-    //     INNER JOIN order_items AS oi
-    //     ON (oi.order_id = o.id)
-    //     INNER JOIN order_item_status AS ois
-    //     ON (ois.id = oi.order_items_status_id)
-    //     INNER JOIN products AS p
-    //     ON (p.id = oi.product_id)
-    //     LEFT OUTER JOIN images AS i
-    //     ON (i.product_id = p.id)
-    //     WHERE o.users_id = ${user}
-    //     GROUP BY o.id, o.order_number, os.status
-    //     `
-    // ).catch((e)=> {
-    //     throw {status:500, message:e.message}
-    // })
     return await db.sequelize.query(
         `
         SELECT o.id, o.order_number, os.status,
