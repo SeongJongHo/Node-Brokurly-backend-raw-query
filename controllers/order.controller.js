@@ -5,7 +5,7 @@ const getOrder = async(req, res)=>{
     try{
         const result = await orderService.getOrder(req.user)
 
-        return res.status(200).json({message: 'success', result: result}) 
+        return res.status(200).json({message: 'success', result: result[0]}) 
     }
     catch(err){
         return res.status(err.status || 400).json({message: err.message || 'error'})
@@ -15,7 +15,7 @@ const addOrder = async(req, res)=>{
     const t = await db.sequelize.transaction();
     try{
 
-        const result = await orderService.addOrder(1, req.body.cart_id, t)
+        const result = await orderService.addOrder(req.user, req.body.cart_id, t)
         
         if(result){
             return res.status(200).json({message: 'success'}) 

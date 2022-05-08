@@ -2,7 +2,7 @@ const {orderDao} = require('../models/dao');
 
 const getOrder = async(user)=>{
     const order = await orderDao.getOrderDao(user)
-
+    console.log(order)
     return order
 }
 const addOrder = async(user, cart_id, t)=>{
