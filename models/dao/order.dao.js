@@ -70,8 +70,8 @@ const addOrderDao = async(user, cart_id, t)=>{
             throw {status:500, message:e.message}
         })
 
-        const orderItem = await cart[0].map(async(item)=>{
-            await db.sequelize.query(
+        const orderItem = await cart[0].map((item)=>{
+            db.sequelize.query(
                 `
                 INSERT INTO order_items(product_id, quantity, order_id, order_items_status_id, tracking_number)
                 VALUES (${item.product_id}, ${item.quantity}, ${order[0]}, ${orderStatus.WAIT_DEPOSIT}, '${uuid()}')
