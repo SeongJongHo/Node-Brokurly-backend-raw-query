@@ -27,7 +27,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// www.naver.com/products
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
